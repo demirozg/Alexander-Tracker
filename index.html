@@ -29,7 +29,7 @@
         
         async function fetchStartTime() {
             try {
-                const response = await fetch("http://localhost:3000/api/start-time");
+                const response = await fetch("https://alexander-tracker.onrender.com/api/start-time");
                 const data = await response.json();
                 return data.startTime;
             } catch (error) {
