@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexander Heating Tracker</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #fffdfa; /* Sepia background */
+            color: rgb(0, 0, 0);
+        }
+        .counter {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alexander's Heating Cost Tracker</h1>
+    <p>Amount spent so far:</p>
+    <div class="counter" id="cost">€0.00</div>
+    
+    <script>
+        const costPerSecond = 120 / (30 * 24 * 60 * 60); // €120 per month
+        
+        async function fetchStartTime() {
+            try {
+                const response = await fetch("http://localhost:3000/api/start-time");
+                const data = await response.json();
+                return data.startTime;
+            } catch (error) {
+                console.error("Error fetching start time:", error);
+                return new Date().getTime(); // Fallback to current time
+            }
+        }
+        
+        async function updateCost() {
+            const startTime = await fetchStartTime();
+            const now = new Date().getTime();
+            const elapsedSeconds = (now - startTime) / 1000;
+            const accumulatedCost = elapsedSeconds * costPerSecond;
+            document.getElementById("cost").innerText = "€" + accumulatedCost.toFixed(6);
+        }
+        
+        setInterval(updateCost, 1000);
+        updateCost(); // Update immediately on load
+    </script>
+</body>
+</html>
