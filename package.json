@@ -1,0 +1,13 @@
+{
+  "name": "alexander-tracker",
+  "version": "1.0.0",
+  "description": "Alexander's Heating Tracker Backend",
+  "main": "backend_server.js",
+  "scripts": {
+    "start": "node backend_server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
