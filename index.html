@@ -6,26 +6,70 @@
     <title>Alexander Heating Tracker</title>
     <style>
         body {
-            font-family: Helvetica, sans-serif;
-            font-weight: bold;
+            font-family: "Arial", sans-serif;
             text-align: center;
-            margin-top: 50px;
-            background-color: #fffdfa; /* Sepia background */
-            color: rgb(0, 0, 0);
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s, color 0.3s;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         .counter {
-            font-size: 2em;
+            font-size: 3em;
+            font-weight: bold;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .timestamp {
+            margin-top: 10px;
+            font-size: 1em;
+            color: gray;
+        }
+        .dark-mode {
+            background-color: #222;
+            color: #fff;
+        }
+        .dark-mode .counter {
+            background: #333;
+            color: #fff;
+        }
+        .toggle-btn {
             margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            background: #333;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .toggle-btn:hover {
+            background: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Alexander's Heating Cost Tracker</h1>
-    <p>The bill so far:</p>
-    <div class="counter" id="cost">€0.00</div>
+    <div class="container">
+        <h1>Alexander's Heating Cost Tracker</h1>
+        <p>Amount spent so far:</p>
+        <div class="counter" id="cost">€0.00</div>
+        <div class="timestamp" id="timestamp">Last updated: --:--:--</div>
+        <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </div>
     
     <script>
-        const costPerSecond = 120 / (30 * 24 * 60 * 60); // €120 per month
+        const costPerSecond = 120 / (30 * 24 * 60 * 60);
         
         async function fetchStartTime() {
             try {
@@ -34,7 +78,7 @@
                 return data.startTime;
             } catch (error) {
                 console.error("Error fetching start time:", error);
-                return new Date().getTime(); // Fallback to current time
+                return new Date().getTime();
             }
         }
         
@@ -42,12 +86,22 @@
             const startTime = await fetchStartTime();
             const now = new Date().getTime();
             const elapsedSeconds = (now - startTime) / 1000;
-            const accumulatedCost = elapsedSeconds * costPerSecond;
-            document.getElementById("cost").innerText = "€" + accumulatedCost.toFixed(6);
+            const newCost = (elapsedSeconds * costPerSecond).toFixed(6);
+            
+            const costElement = document.getElementById("cost");
+            costElement.style.transform = "scale(1.1)";
+            setTimeout(() => costElement.style.transform = "scale(1)", 150);
+            costElement.innerText = "€" + newCost;
+            
+            document.getElementById("timestamp").innerText = "Last updated: " + new Date().toLocaleTimeString();
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
         }
         
         setInterval(updateCost, 1000);
-        updateCost(); // Update immediately on load
+        updateCost();
     </script>
 </body>
 </html>
