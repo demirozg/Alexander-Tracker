@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Use environment port
 
 app.use(cors());
 app.use(express.json());
@@ -23,9 +23,14 @@ function getStartTime() {
     }
 }
 
-// API endpoint to get the start time
+// ✅ Correct API Endpoint
 app.get("/api/start-time", (req, res) => {
     res.json({ startTime: getStartTime() });
+});
+
+// Root Route to Avoid "Cannot GET"
+app.get("/", (req, res) => {
+    res.send("Server is running! Use /api/start-time");
 });
 
 app.listen(PORT, () => {
