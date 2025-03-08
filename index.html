@@ -108,19 +108,6 @@
         
         setInterval(updateCost, 1000);
         updateCost();
-        
-        
-        function displayCurrentDay() {
-            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const currentDate = new Date();
-            const currentDay = daysOfWeek[currentDate.getDay()];
-      
-      document.getElementById("day-display").innerText = `Today is ${currentDay}`;
-    }
-
-    // Call the function to display the day when the page loads
-    window.onload = displayCurrentDay;
-    
     </script>
 </body>
 </html>
