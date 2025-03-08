@@ -34,6 +34,21 @@
             margin-top: 10px;
             font-size: 1em;
             color: gray;
+            font-style: italic;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .date-display {
+            margin-top: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+        }
+        .dark-mode .date-display {
+            color: #ccc;
         }
         .dark-mode {
             background-color: #222;
@@ -42,6 +57,10 @@
         .dark-mode .counter {
             background: #333;
             color: #fff;
+        }
+        .dark-mode .timestamp {
+            color: #ddd;
+            background: rgba(255, 255, 255, 0.1);
         }
         .toggle-btn {
             margin-top: 20px;
@@ -61,6 +80,7 @@
 </head>
 <body>
     <div class="container">
+        <div class="date-display" id="date-display">--</div>
         <h1>Alexander's Heating Cost Tracker</h1>
         <p>The bill so far:</p>
         <div class="counter" id="cost">€0.00</div>
@@ -93,7 +113,8 @@
             setTimeout(() => costElement.style.transform = "scale(1)", 150);
             costElement.innerText = "€" + newCost;
             
-            document.getElementById("timestamp").innerText = "Last updated: " + new Date().toLocaleTimeString();
+            document.getElementById("date-display").innerText = new Date().toLocaleDateString();
+            document.getElementById("timestamp").innerText = "Last updated: " + new Date().toLocaleTimeString('en-GB');
         }
         
         function toggleDarkMode() {
